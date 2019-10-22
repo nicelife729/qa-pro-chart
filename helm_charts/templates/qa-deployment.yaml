@@ -1,0 +1,61 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.19.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: qa
+  name: qa
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yaml
+        kompose.version: 1.19.0 ()
+      creationTimestamp: null
+      labels:
+        io.kompose.service: qa
+    spec:
+      containers:
+      - env:
+        - name: LANG
+          value: C.UTF-8
+        - name: MONGODB
+          value: mgdb
+        - name: QAPUBSUB_IP
+          value: qaeventmq
+        - name: QAPUBSUB_PORT
+          value: "5672"
+        - name: QAPUBSUB_PWD
+          value: admin
+        - name: QAPUBSUB_USER
+          value: admin
+        - name: QARUN
+          value: qaweb
+        - name: TZ
+          value: Asia/Shanghai
+        image: daocloud.io/quantaxis/qacommunity:latest
+        name: qacommunity
+        ports:
+        - containerPort: 8888
+        - containerPort: 80
+        resources: {}
+        volumeMounts:
+        - mountPath: /home
+          name: qacode
+        - mountPath: /dag
+          name: qadag
+      restartPolicy: Always
+      volumes:
+      - name: qacode
+        persistentVolumeClaim:
+          claimName: qacode
+      - name: qadag
+        persistentVolumeClaim:
+          claimName: qadag
+status: {}

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml
+    kompose.version: 1.19.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: qamarketcollector
+  name: qamarketcollector
+spec:
+  ports:
+  - name: "8011"
+    port: 8011
+    targetPort: 8011
+  selector:
+    io.kompose.service: qamarketcollector
+status:
+  loadBalancer: {}
