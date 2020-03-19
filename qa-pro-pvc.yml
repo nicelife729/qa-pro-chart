@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: qamg
+  namespace: qans
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: "worker03-nfs-client"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: qacode
+  namespace: qans
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: "worker03-nfs-client"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pg-data
+  namespace: qans
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: "worker03-nfs-client"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: qadag
+  namespace: qans
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: "worker03-nfs-client"  

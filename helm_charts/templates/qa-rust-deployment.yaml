@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     io.kompose.service: qa
-  name: qa
+  name: qarust
   namespace: biz
 spec:
   replicas: 1
@@ -33,7 +33,7 @@ spec:
           value: qaweb
         - name: TZ
           value: Asia/Shanghai
-        image: daocloud.io/quantaxis/qacommunity:latest
+        image: daocloud.io/quantaxis/qa-community-go-r:latest
         name: qacommunity
         ports:
         - containerPort: 8888

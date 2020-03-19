@@ -2,8 +2,8 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   labels:
-    io.kompose.service: qa
-  name: qa
+    io.kompose.service: qaeditor
+  name: qaeditor
   namespace: biz
 spec:
   replicas: 1
@@ -13,7 +13,7 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        io.kompose.service: qa
+        io.kompose.service: qaeditor
     spec:
       containers:
       - env:
@@ -33,23 +33,26 @@ spec:
           value: qaweb
         - name: TZ
           value: Asia/Shanghai
-        image: daocloud.io/quantaxis/qacommunity:latest
-        name: qacommunity
+        image: daocloud.io/quantaxis/qaeditor:latest
+        name: qaeditor
         ports:
-        - containerPort: 8888
-        - containerPort: 80
+        - containerPort: 3000
         resources: {}
         volumeMounts:
-        - mountPath: /home
+        - mountPath: /home/project
           name: qacode
-        - mountPath: /dag
-          name: airflow
       restartPolicy: Always
       volumes:
       - name: qacode
         persistentVolumeClaim:
           claimName: qacode
-      - name: airflow
-        persistentVolumeClaim:
-          claimName: airflow
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - worker01  
 status: {}
