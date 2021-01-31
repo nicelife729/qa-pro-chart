@@ -42,14 +42,14 @@ spec:
         volumeMounts:
         - mountPath: /home
           name: qacode
-        - mountPath: /dag
-          name: airflow
+        # - mountPath: /dag
+        #   name: airflow
       restartPolicy: Always
       volumes:
       - name: qacode
         persistentVolumeClaim:
           claimName: qacode
-      - name: airflow
-        persistentVolumeClaim:
-          claimName: airflow
+      # - name: airflow
+      #   persistentVolumeClaim:
+      #     claimName: airflow
 status: {}

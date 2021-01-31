@@ -1,0 +1,52 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: xmcron
+  name: xmcron
+  namespace: biz
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: xmcron
+    spec:
+      containers:
+      - env:
+        - name: LANG
+          value: C.UTF-8
+        - name: MONGODB
+          value: mgdb
+        - name: TZ
+          value: Asia/Shanghai
+        image: hub.nicelife729.io:8443/xiao-mi/xmcron:1.0.10
+        name: xmcron
+        resources: {}
+        volumeMounts:
+        - mountPath: /home/project
+          name: qacode
+      restartPolicy: Always
+      hostAliases:
+      - ip: "192.168.2.243"
+        hostnames:
+        - "git.nicelife729.io"
+      imagePullSecrets:
+        - name: prviatehub
+      volumes:
+      - name: qacode
+        persistentVolumeClaim:
+          claimName: qacode
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - worker01 
+status: {}

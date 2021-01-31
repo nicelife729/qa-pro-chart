@@ -1,0 +1,28 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: qaredis
+  name: qaredis
+  namespace: biz
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        io.kompose.service: qaredis
+    spec:
+      containers:
+      - env:
+        - name: LANG
+          value: C.UTF-8
+        - name: TZ
+          value: Asia/Shanghai
+        image: daocloud.io/quantaxis/qaredis:latest
+        name: qaredis
+        ports:
+        - containerPort: 6379
+        resources: {}
+      restartPolicy: Always
+status: {}
